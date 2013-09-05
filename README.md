@@ -20,6 +20,9 @@ Retourne un objet intermédiaire **r0mdauTable**
 
 ### Méthode de sélection :
 `$result = $database->table($file)->find();`
-Retourne un **array()** d'objets
+Retourne tous les éléments de la table dans un **array()** d'objets
+
+`$result = $database->table($file)->find(array("nom"=>"dauby"));`
+Retourne tous les éléments de la table qui ont un attribut `nom` avec `dauby` comme valeur dans un **array()** d'objets
 
 La suite bientôt.
