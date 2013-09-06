@@ -25,4 +25,7 @@ Retourne tous les éléments de la table dans un **array()** d'objets
 `$result = $database->table($file)->find(array("nom"=>"dauby"));`
 Retourne tous les éléments de la table qui ont un attribut `nom` avec `dauby` comme valeur dans un **array()** d'objets
 
+`$result = $database->table($file)->find1(array("id"=>19));`
+Retourne le premier élément (si plusieurs) qui a un attribut `id`avec 19 comme valeur sous forme d'objet
+
 La suite bientôt.
