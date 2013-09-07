@@ -5,6 +5,11 @@ Modèle de données NoSQL codé en PHP, données au format JSON
 
 Des exemples d'utilisation de cette classe seront présentés très prochainement.
 
+#Définitions
+Chaque enregistrement possède un identifiant unique dénommé `_rid`.
+Chaque table est représentée physiquement par un fichier.
+Les fichiers sont stockés dans un seul répertoire de travail. La class r0mdauDb est instanciée avec le chemin vers ce répertoire en paramètre.
+
 # Exemples d'utilisation
 
 ## Initialisation de la classe :
@@ -28,4 +33,12 @@ Retourne tous les éléments de la table qui ont un attribut `nom` avec `dauby` 
 `$result = $database->table($file)->find1(array("id"=>19));`
 Retourne le premier élément (si plusieurs) qui a un attribut `id`avec 19 comme valeur sous forme d'objet
 
+### Méthode de suppression :
+`$result = $database->table($file)->find(array("nom"=>"dauby"));`
+Supprime tous les éléments de la table qui ont un attribut `nom` avec `dauby` comme valeur
+
+`$result = $database->table($file)->find(array("_rid"=>$rid));`
+Supprime le seul élément de la table qui a pour valeur $rid à l'attribut `_rid`
+
 La suite bientôt.
+
