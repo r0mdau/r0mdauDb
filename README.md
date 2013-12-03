@@ -40,5 +40,12 @@ Supprime tous les éléments de la table qui ont un attribut `nom` avec `dauby` 
 `$result = $database->table($file)->find(array("_rid"=>$rid));`
 Supprime le seul élément de la table qui a pour valeur $rid à l'attribut `_rid`
 
+### Méthode de modification :
+`$result = $database->table($file)->update(array("prenom"=>"romain"));`
+Modifie tous les éléments de la table qui ont un attribut `prenom` avec `romain` comme valeur
+
+`$result = $database->table($file)->update(array("_rid"=>$rid));`
+Modifie tous les attributs de l'élément qui a pour valeur $rid à l'attribut `_rid`
+
 La suite bientôt.
 
