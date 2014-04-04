@@ -32,10 +32,10 @@ Retourne tous les éléments de la table qui ont un attribut `nom` avec `dauby` 
 Retourne le premier élément (si plusieurs) qui a un attribut `id`avec 19 comme valeur sous forme d'objet
 
 ### Méthode de suppression :
-`$result = $database->table($file)->find(array("nom"=>"dauby"));`
+`$result = $database->table($file)->delete(array("nom"=>"dauby"));`
 Supprime tous les éléments de la table qui ont un attribut `nom` avec `dauby` comme valeur
 
-`$result = $database->table($file)->find(array("_rid"=>$rid));`
+`$result = $database->table($file)->delete(array("_rid"=>$rid));`
 Supprime le seul élément de la table qui a pour valeur $rid à l'attribut `_rid`
 
 ### Méthode de modification :
