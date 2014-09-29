@@ -7,6 +7,7 @@ Modèle de données NoSQL codé en PHP, données au format JSON
 Chaque enregistrement possède un identifiant unique dénommé `_rid`.
 Chaque table est représentée physiquement par un fichier.
 Les fichiers sont stockés dans un seul répertoire de travail. La class r0mdauDb est instanciée avec le chemin vers ce répertoire en paramètre.
+Attention ! Les accès concurrents ne sont pas gérés.
 
 # Exemples d'utilisation
 
