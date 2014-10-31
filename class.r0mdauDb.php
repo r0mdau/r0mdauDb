@@ -80,7 +80,7 @@ class r0mdauTable
         return isset($result[0]) ? $result[0] : $result;
     }
 
-    public function update($array)
+    public function update($array, $values)
     {
         $bool = false;
         $i = 0;
@@ -88,7 +88,7 @@ class r0mdauTable
             $tmp = key($array);
             if (isset($data->$tmp)) {
                 if ($data->$tmp == $array[$tmp]) {
-                    $this->data[$i] = $array;
+                    $this->data[$i] = $values;
                     $bool = true;
                 }
             }
