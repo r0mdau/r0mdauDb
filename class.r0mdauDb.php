@@ -9,17 +9,16 @@ class r0mdauDb
         $this->directory = $directory;
     }
 
-    public function table($str)
+    public function collection($name)
     {
-        return new r0mdauTable($this->directory, $str);
+        return new r0mdauCollection($this->directory, $name);
     }
 }
 
-class r0mdauTable
+class r0mdauCollection
 {
     private $file;
     private $data;
-    private $find;
 
     public function __construct($dir, $file)
     {
@@ -51,16 +50,16 @@ class r0mdauTable
         }
     }
 
-    public function insert($array)
+    public function insert($document)
     {
         try {
-            if (!isset($array['_rid'])) {
-                $array['_rid'] = md5(microtime(true));
+            if (!isset($document['_rid'])) {
+                $document['_rid'] = md5(microtime(true));
             }
-            if (!fwrite(fopen($this->file, 'a'), json_encode($array) . "\n")) {
+            if (!fwrite(fopen($this->file, 'a'), json_encode($document) . "\n")) {
                 throw new Exception('Ecriture pas possible');
             } else {
-                $this->data[] = $this->arrayToObject($array);
+                $this->data[] = $this->arrayToObject($document);
             }
             return true;
         } catch (Exception $e) {
@@ -69,36 +68,37 @@ class r0mdauTable
         return false;
     }
 
-    public function find($array = NULL)
+    public function find($document = NULL)
     {
-        return $this->search($array);
+        return $this->search($document);
     }
 
-    public function find1($array)
+    public function find1($document)
     {
-        $result = $this->search($array);
+        $result = $this->search($document);
         return isset($result[0]) ? $result[0] : $result;
     }
 
-    public function update($array, $values)
+    public function update($document, $values)
     {
         $bool = false;
         $i = 0;
         foreach ($this->data as $data) {
-            $tmp = key($array);
+            $tmp = key($document);
             if (isset($data->$tmp)) {
-                if ($data->$tmp == $array[$tmp]) {
-                    $this->data[$i] = $values;
+                if ($data->$tmp == $document[$tmp]) {
+                    $this->data[$i] = $this->arrayToObject($values);
                     $bool = true;
                 }
             }
             $i++;
         }
         if ($bool) {
-            $this->eraseFile();
-            foreach ($this->data as $data) {
+            $tmpDatas = $this->data;
+            $this->truncate();
+            foreach ($tmpDatas as $data) {
                 $entry = (array)$data;
-                if (count($entry) > 1) {
+                if (count($entry) > 0) {
                     $this->insert($entry);
                 }
             }
@@ -106,21 +106,22 @@ class r0mdauTable
         return $bool;
     }
 
-    public function delete($array)
+    public function delete($document)
     {
         $bool = false;
         $i = 0;
         foreach ($this->data as $data) {
-            $tmp = key($array);
+            $tmp = key($document);
             if (isset($data->$tmp)) {
-                if ($data->$tmp == $array[$tmp]) {
+                if ($data->$tmp == $document[$tmp]) {
                     unset($this->data[$i]);
-                    $this->data = array_values($this->data);
                     $bool = true;
                 }
             }
             $i++;
         }
+        $this->data = array_values($this->data);
+
         if ($bool) {
             $this->eraseFile();
             foreach ($this->data as $data) {
@@ -135,8 +136,8 @@ class r0mdauTable
 
     public function truncate()
     {
-        $this->eraseFile();
         $this->data = array();
+        return $this->eraseFile();
     }
 
     private function eraseFile()
@@ -144,20 +145,20 @@ class r0mdauTable
         try {
             if (file_put_contents($this->file, '') === false) {
                 throw new Exception("Le fichier n'a pas pu être vidé");
-            }
+            }else return true;
         } catch (Exception $e) {
             print $e->getMessage();
         }
     }
 
-    private function search($array = NULL)
+    private function search($document = NULL)
     {
-        if (is_null($array)) return $this->data;
+        if (is_null($document)) return $this->data;
         if (empty($this->data)) return array();
 
         $result = array();
         foreach ($this->data as $arr) {
-            if (isset($arr->{key($array)}) AND $arr->{key($array)} == $array[key($array)]) {
+            if (isset($arr->{key($document)}) AND $arr->{key($document)} == $document[key($document)]) {
                 $result[] = $arr;
             }
         }
