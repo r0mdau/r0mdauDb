@@ -1,0 +1,29 @@
+{
+  "name": "r0mdau/r0mdau-db",
+  "description": "NoSQL client, file storage, json",
+  "type": "library",
+  "license": "Apache2.0",
+  "homepage": "https://github.com/r0mdau/r0mdau-db",
+  "authors": [
+    {
+      "name": "Romain Dauby",
+      "email": "romain.dauby@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4"
+  },
+  "autoload": {
+    "psr-4": {"r0mdau\\": "src/"},
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.6"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit"
+  }
+}
